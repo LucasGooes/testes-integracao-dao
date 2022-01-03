@@ -4,19 +4,17 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 
-public class LeilaoPage {
+import br.com.alura.leilao.PageObject;
+
+public class LeilaoPage extends PageObject {
 	
 	private static final String URL_CADASTRO_LEILAO = "http://localhost:8080/leiloes/new";
-	private WebDriver browser;
+	private static final String URL_LEILAO = "http://localhost:8080/leiloes";
 	
 	public LeilaoPage(WebDriver browser) {
-		this.browser = browser;
+		super(browser);
 	}
 	
-	public void fechar() {
-		this.browser.quit();
-	}
-
 	public CadastroLeilaoPage carregarFormulario() {
 		this.browser.navigate().to(URL_CADASTRO_LEILAO);
 		return new CadastroLeilaoPage(browser);
@@ -28,6 +26,10 @@ public class LeilaoPage {
 		WebElement colunaDataAbertura = linhaDaTabela.findElement(By.cssSelector("td:nth-child(2)"));
 		WebElement colunaValorInicial = linhaDaTabela.findElement(By.cssSelector("td:nth-child(3)"));
 		return colunaNome.getText().equals(nome) && colunaValorInicial.getText().equals(valor) && colunaDataAbertura.getText().equals(hoje);
+	}
+
+	public boolean isPaginaAtual() {
+		return browser.getCurrentUrl().equals(URL_LEILAO);
 	}
 	
 }
